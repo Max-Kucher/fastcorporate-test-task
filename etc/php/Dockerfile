@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 ADD ./web /var/www/html
 RUN chown -R www-data:www-data /var/www/html;
 RUN if [ -d "/var/www/html/storage" ]; then \
-        chmod -R 755 /var/www/html/storage \
+        chmod -R 755 /var/www/html/storage; \
     else \
         echo "Storage catalog was not found"; \
     fi
