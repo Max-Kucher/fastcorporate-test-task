@@ -9,8 +9,17 @@ Route::view('/', 'welcome')
     ->name('home');
 
 Route::middleware(['auth'])->group(function () {
+    Volt::route('dashboard', 'pages.auth.dashboard')
+        ->name('dashboard');
+
     Route::view('profile', 'profile')
         ->name('profile');
+
+    Volt::route('/client-area/page-a', 'pages.clientarea.page-a')
+        ->name('clientarea.page-a');
+
+    Volt::route('/client-area/page-b', 'pages.clientarea.page-b')
+        ->name('clientarea.page-b');
 
     Volt::route('admin/statistics', 'pages.admin.statistics')
         ->middleware('can:'.Permissions::VIEW_STATISTICS->value)

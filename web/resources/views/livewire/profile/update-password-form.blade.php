@@ -39,7 +39,7 @@ new class extends Component
 }; ?>
 
 <section>
-    <header>
+    <div>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Update Password') }}
         </h2>
@@ -47,7 +47,7 @@ new class extends Component
         <p class="mt-1 text-sm text-gray-600">
             {{ __('Ensure your account is using a long, random password to stay secure.') }}
         </p>
-    </header>
+    </div>
 
     <form wire:submit="updatePassword" class="mt-6 space-y-6">
         <div>

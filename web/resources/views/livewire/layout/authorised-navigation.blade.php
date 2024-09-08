@@ -7,16 +7,34 @@ use Livewire\Volt\Component;
 new class extends Component {
     public Authenticatable $user;
 
-    public bool $canViewStatistics;
+    public array $pages;
 
-    public bool $canViewReports;
-
-    public function mount()
+    public function mount(): void
     {
         $this->user = auth()->user();
 
-        $this->canViewStatistics = $this->user->can(App\Enum\Users\Permissions\Permissions::VIEW_STATISTICS->value);
-        $this->canViewReports = $this->user->can(App\Enum\Users\Permissions\Permissions::VIEW_REPORTS->value);
+        $this->pages = array_filter([
+            [
+                'route' => 'statistics',
+                'label' => __('Statistics'),
+                'allowed' => $this->user->can(App\Enum\Users\Permissions\Permissions::VIEW_STATISTICS->value),
+            ],
+            [
+                'route' => 'reports',
+                'label' => __('Reports'),
+                'allowed' => $this->user->can(App\Enum\Users\Permissions\Permissions::VIEW_REPORTS->value),
+            ],
+            [
+                'route' => 'clientarea.page-a',
+                'label' => __('Page A'),
+            ],
+            [
+                'route' => 'clientarea.page-b',
+                'label' => __('Page B')
+            ],
+        ], function ($page) {
+            return !isset($page['allowed']) || $page['allowed'] === true;
+        });
     }
 
     /**
@@ -36,30 +54,19 @@ new class extends Component {
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            @if ($canViewStatistics || $canViewReports)
-                <div class="flex">
-                    @if ($canViewStatistics)
-                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <x-nav-link :href="route('statistics')" :active="request()->routeIs('statistics')"
-                                        wire:navigate>
-                                {{ __('Statistics') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-
-                    @if ($canViewReports)
-                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <x-nav-link
-                                :href="route('reports')"
-                                :active="request()->routeIs('reports')"
-                                wire:navigate
-                            >
-                                {{ __('Reports') }}
-                            </x-nav-link>
-                        </div>
-                    @endif
-                </div>
-            @endif
+            <div class="hidden sm:flex">
+                @foreach ($pages as $page)
+                    <div class="space-x-8 sm:-my-px sm:ms-10 flex">
+                        <x-nav-link
+                            :href="route($page['route'])"
+                            :active="request()->routeIs($page['route'])"
+                            wire:navigate
+                        >
+                            {{ $page['label'] }}
+                        </x-nav-link>
+                    </div>
+                @endforeach
+            </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
