@@ -26,7 +26,7 @@ new class extends Component {
         }
 
         return view('livewire.adminarea.statistics', [
-            'events' => $eventsQuery->paginate(10),
+            'events' => $eventsQuery->orderBy('created_at', 'desc')->paginate(10),
         ]);
     }
 };
