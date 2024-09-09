@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('action');
             $table->string('page')->nullable();
-            $table->string('button')->nullable();
+            $table->string('event_name')->nullable();
             $table->timestamps();
         });
     }
