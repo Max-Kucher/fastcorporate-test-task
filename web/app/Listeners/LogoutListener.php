@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Enum\Events\EventNames;
 use App\Events\LogoutEvent;
 use App\Models\Event;
 
@@ -15,7 +16,7 @@ class LogoutListener
         Event::create([
             'user_id' => $event->user->id,
             'action' => 'logout',
-            'event_name' => 'user logout',
+            'event_name' => EventNames::USER_LOGOUT->value,
         ]);
     }
 }

@@ -14,7 +14,7 @@ class Event extends Model
         'user_id',
         'action',
         'page',
-        'button',
+        'event_name',
     ];
 
     /**
