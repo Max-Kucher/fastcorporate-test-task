@@ -32,6 +32,10 @@ new class extends Component {
                 'route' => 'clientarea.page-b',
                 'label' => __('Page B')
             ],
+            [
+                'route' => 'dashboard',
+                'label' => __('Dashboard')
+            ],
         ], function ($page) {
             return !isset($page['allowed']) || $page['allowed'] === true;
         });
